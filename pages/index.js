@@ -6,7 +6,36 @@ import SectionCarousel from '@/components/SectionCarousel'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home () {
+import axios, {isCancel, AxiosError} from 'axios';
+
+export async function getServerSideProps(context) {
+  try {
+    const response = await axios.get('https://api-dev.cuponerapp.com/v2/estados/1/marcas', {
+      headers: {
+        'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjRjNTE0Y2ZhYWFlMzM3MmQ0NzQ2OGU3YWVlNWEzMDc4ZDZhNDZhMjk4ZWFiYzk5MDg3NmMwYzI0NzljY2NlMTY2ZTE1YTIzMzAxMzM0NmQyIn0.eyJhdWQiOiIxIiwianRpIjoiNGM1MTRjZmFhYWUzMzcyZDQ3NDY4ZTdhZWU1YTMwNzhkNmE0NmEyOThlYWJjOTkwODc2YzBjMjQ3OWNjY2UxNjZlMTVhMjMzMDEzMzQ2ZDIiLCJpYXQiOjE3MDEzODY2NDgsIm5iZiI6MTcwMTM4NjY0OCwiZXhwIjoxNzMzMDA5MDQ4LCJzdWIiOiI0Nzg1MzQiLCJzY29wZXMiOltdfQ.VBa9_eOARZsYDqBTIlWKatj31tpP1MF8xvx5nsYOzwSzxSZcbczFalrgCzzuEG31000A3imbjW-NEu8aYQ3xkR3YtuU8L0Q9UL6eSoyuBqT7cl90QhSevHKSQ0et_K7GymwZl8LnV67gtNoInHat_M1PYJR6NG8Re7xAzLnbJMGPoai8_yw62Q9oL7luV7wT5RVPe70RfyQ1yu64QLRbtn-3CT-quwuXQjHDJXP87BFnuBXmx2tq2ppBUp_QiZFtkLIKiy7QsUeIUkuBTJAdXMr0zfKTwiCj-BeGTIhO1FsrXy48k_Ya3C9QxD0E9mlEVYg6yl-kNrrNcLZBGbXRSZ63cGTkgDAhWJEnQKeKc4ZWFWlpKsvJR7ZWK9uyVFqRQa3z4soTEbDFTZfyyM3qa2Iz7gVrBuGluJyiHCQm9IeeWDAecvofVSLMTPk4RBwhRst7iB9lkd8nsleY2LmXi7ZJs9zxldoErvSLUOy0HHw_bTwIxXRbHg0HOIVOSp2xq3oJJjPkOEkn5YckRoT-y2FMZBOMFVBDidC_RmVX8T8l9XWJRPvCESJsuh379mMw--xZ0OBS1PIpfF-oM0EHN3TExORc0B8woq3edNcGdc6IXIXnbzwo4YzLAc4JtkdA1E10OGaSRv3-PSQ2j_hwq2NFK8UmfNvjL7LaJNhsrrE',
+      }
+    })
+  
+    const data = response.data;
+
+    console.log('Axios response:', data);
+  
+    return {
+      props: {
+        data,
+      },
+    };
+  } catch (error) {
+    console.error('Error', error.message);
+
+    return {
+      props: { },
+    };
+  }
+}
+
+export default function Home ({data}) {
+  console.log(data);
 
   const categories = [
     {

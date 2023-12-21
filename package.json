@@ -3,16 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next server.js",
     "build": "next build",
-    "start": "next start",
+    "start": "SET NODE_ENV=production & node server.js",
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "14.0.4",
-    "react": "^18",
-    "react-dom": "^18",
-    "react-icons": "^4.12.0"
+    "axios": "^1.6.2",
+    "next": "^14.0.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.12.0",
+    "@claro/sdkclaro": "^1.2.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",
