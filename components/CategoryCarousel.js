@@ -3,24 +3,26 @@ import Image from "next/image"
 
 const CategoryCarousel = ({ categories }) => {
 
+  console.log('categories', categories)
+
   return (
     <div>
-      <p className="pb-4 font-regular text-base">Categorías</p>
+      <p className="pb-4 text-base font-regular">Categorías</p>
 
       <div className="w-full max-w-[100%] overflow-hidden pb-1">
-        <div className="flex gap-5 w-full overflow-x-auto">
+        <div className="flex w-full gap-5 overflow-x-auto">
           {
             categories.map((category) => (
-              <div key={category.id} className="flex flex-col gap-1 text-center w-fit">
-                <div className="rounded-full bg-blue-300 w-14 h-14 max-h-14 max-w-[56px] overflow-hidden relative">
+              <div key={category.id} className="flex flex-col items-center justify-center gap-1 text-center w-fit">
+                <div className="rounded-full bg-[#F6F6F6] w-14 h-14 max-h-14 max-w-[56px] overflow-hidden relative">
                   <Image
-                    src="https://picsum.photos/200/300"
+                    src={category.img}
                     layout="fill"
                     object-fit="cover"
                     alt="banner promocional"
                   />
                 </div>
-                <p>{category.nombre}</p>
+                <p>{category.name}</p>
               </div>
             ))
           }
