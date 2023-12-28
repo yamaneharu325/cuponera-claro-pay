@@ -35,6 +35,8 @@ export default function Home ({
 
   const groupedCategories = groupByCategory(promotionsCategories);
 
+  console.log('dynamicCategories', dynamicCategories)
+
   return (
     <main
       className={`${inter.className}`}
