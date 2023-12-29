@@ -69,7 +69,7 @@ export async function getServerSideProps (context) {
   const state = query.state;
 
   const urls = [
-    `https://api.cuponerapp.com/v2/categorias/8/promociones?estado=${state}`,
+    `https://api.cuponerapp.com/v2/estados/${state}/promociones`,
     `https://api.cuponerapp.com/v2/estados/${state}/banners`,
     `https://api.cuponerapp.com/v2/estados/${state}/dinamicas`
   ];
