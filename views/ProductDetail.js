@@ -41,7 +41,7 @@ const ProductDetail = ({
       <div className="w-full px-5 pt-10">
         <div className="flex items-center justify-between w-full">
           <div>
-            <p className="text-base font-bold">{product?.nombre}</p>
+            <p className="text-base font-bold">{decodeURIComponent(escape(product?.nombre))}</p>
             {/* <p>(Marca)</p> */}
           </div>
           <div>
