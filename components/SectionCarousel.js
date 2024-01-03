@@ -29,7 +29,8 @@ const SectionCarousel = ({ groupedCategories }) => {
                     item?.objetos.map((object, i) => (
                       <div key={i++} className="flex flex-col gap-1 text-center w-fit">
                         <div
-                          className="rounded-lg bg-blue-300 w-24 h-24 max-h-24 max-w-[96px] overflow-hidden relative cursor-pointer"
+                          style={{ backgroundColor: object.marca.color }}
+                          className="rounded-lg w-24 h-24 max-h-24 max-w-[96px] overflow-hidden relative cursor-pointer"
                           onClick={() => selectBrand(object, item)}
                         >
                           <Image
