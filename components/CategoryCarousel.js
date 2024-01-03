@@ -22,7 +22,7 @@ const CategoryCarousel = ({ categories }) => {
                     alt="banner promocional"
                   />
                 </div>
-                <p>{category.name}</p>
+                <p className="text-sm font-normal">{category.name}</p>
               </div>
             ))
           }

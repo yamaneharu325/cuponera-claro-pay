@@ -1,7 +1,11 @@
-import Button from "@/components/Button";
-import Image from "next/image"
+import { useState } from 'react';
 
-import { GoArrowLeft } from "react-icons/go"
+import Button from "@/components/Button";
+import Image from "next/image";
+import { GoArrowLeft } from "react-icons/go";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const iconStyle = {
   width: '24px',
@@ -14,7 +18,10 @@ const ProductDetail = ({
   setSelectedProduct,
   setShowProductDetail
 }) => {
-  console.log('product', product)
+  const [localCart, setLocalCart] = useState(() => {
+    const storedCart = localStorage.getItem('localCart');
+    return storedCart ? JSON.parse(storedCart) : [];
+  })
 
   const handleReturn = () => {
     setSelectedProduct({})
@@ -24,6 +31,22 @@ const ProductDetail = ({
   const handleButton = () => {
 
   }
+
+  const handleAddCart = () => {
+    const updatedCart = [...localCart, product];
+    setLocalCart(updatedCart);
+    localStorage.setItem('localCart', JSON.stringify(updatedCart));
+
+    toast.success('Producto añadido al carrito correctamente', {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
 
   return (
     <div>
@@ -58,14 +81,21 @@ const ProductDetail = ({
           </div>
         </div>
 
-        <div className="absolute left-5 right-5 bottom-8">
+        <div className="absolute flex flex-col gap-5 left-5 right-5 bottom-8">
           <Button
             text={'Comprar'}
             onClick={handleButton}
             type={'button'}
           />
+
+          <Button
+            text={'Agregar al Carrito'}
+            onClick={handleAddCart}
+            type={'button'}
+          />
         </div>
       </div>
+      <ToastContainer />
     </div>
   )
 }
