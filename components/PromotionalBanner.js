@@ -2,8 +2,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 const PromotionalBanner = ({ banner }) => {
-  const bannerLink = banner[0].link;
-  const bannerImage = banner[0].img
+  const bannerLink = banner[0]?.link ? banner[0]?.link : '';
+  const bannerImage = banner[0]?.img ? banner[0]?.img : ''
 
   return (
     <Link href={bannerLink} passHref>
