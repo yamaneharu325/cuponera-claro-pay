@@ -52,7 +52,7 @@ const SectionCarousel = ({ groupedCategories }) => {
 
       {
         showListProducts
-          ? <div className='absolute inset-0'>
+          ? <div className='fixed inset-0'>
             <div className="w-full h-full min-h-screen bg-[#FFFCF5]">
               <ListProducts
                 currentCategory={currentCategory}

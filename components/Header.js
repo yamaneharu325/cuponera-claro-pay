@@ -3,21 +3,30 @@ import Image from "next/image";
 
 const Header = ({ title, showCart = true }) => {
   const [localCart, setLocalCart] = useState(() => {
-    const storedCart = localStorage.getItem('localCart');
-    return storedCart ? JSON.parse(storedCart) : [];
+    if (typeof window !== 'undefined') {
+      const storedCart = localStorage.getItem('localCart');
+      return storedCart ? JSON.parse(storedCart) : [];
+    }
+    return [];
   });
 
   // Suscribe a cambios en el localStorage
   useEffect(() => {
     const handleStorageChange = () => {
-      const storedCart = localStorage.getItem('localCart');
-      setLocalCart(storedCart ? JSON.parse(storedCart) : []);
+      if (typeof window !== 'undefined') {
+        const storedCart = localStorage.getItem('localCart');
+        setLocalCart(storedCart ? JSON.parse(storedCart) : []);
+      }
     };
 
-    window.addEventListener('storage', handleStorageChange);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('storage', handleStorageChange);
+    }
 
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('storage', handleStorageChange);
+      }
     };
   }, []);
 
@@ -30,7 +39,7 @@ const Header = ({ title, showCart = true }) => {
       <div />
       <p className="font-medium text-lg text-[#23272A]">{title}</p>
 
-      {showCart && localCart.length > 0 && (
+      {showCart && localCart.length > 0 ? (
         <div className="relative w-5 h-5 rounded-full cursor-pointer" onClick={navigateToCart}>
           <div className="absolute top-[-12px] right-[-8px] bg-[#2D2D2D] h-4 w-4 flex justify-center items-center rounded-full">
             <p className="text-xs font-medium text-white">
@@ -39,7 +48,7 @@ const Header = ({ title, showCart = true }) => {
           </div>
           <Image src="/icons/bag2.png" alt="Bag Icon" width={16} height={16} layout="responsive" />
         </div>
-      )}
+      ) : <div />}
     </div>
   );
 };

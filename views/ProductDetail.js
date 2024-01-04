@@ -57,7 +57,7 @@ const ProductDetail = ({
         <Image
           src={product?.img}
           layout="fill"
-          object-fit="cover"
+          object-fit="fill"
           alt="banner promocional"
         />
       </div>
@@ -74,9 +74,6 @@ const ProductDetail = ({
         <div className="pt-4">
           <p className="text-[#DCA927] font-semibold text-base">Detalles</p>
           <div className="mt-2">
-            {
-              console.log('product', product)
-            }
             <p className="text-[#9095A6] ">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas viverra maximus nibh, ut consectetur neque maximus ac. Nullam sit amet Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas viverra maximus nibh, ut consectetur neque maximus ac. </p>
           </div>
         </div>

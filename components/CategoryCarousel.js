@@ -3,8 +3,6 @@ import Image from "next/image"
 
 const CategoryCarousel = ({ categories }) => {
 
-  console.log('categories', categories)
-
   return (
     <div>
       <p className="pb-4 text-base font-regular">Categorías</p>
