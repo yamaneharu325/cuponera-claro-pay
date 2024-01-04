@@ -13,7 +13,7 @@ const CartPage = () => {
 
   return (
     <div className="pb-[120px]">
-      <Header title='Home' showCart={false} />
+      <Header title='Carrito de compras' showCart={false} />
 
       <div className="grid grid-cols-2 gap-3 px-5 mt-3">
         {localCart.map((product, i) => (
