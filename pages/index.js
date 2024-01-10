@@ -18,7 +18,7 @@ const IndexPage = ({ states }) => {
 
   const handleShowPromotions = () => {
     setIsLoading(true);
-
+    console.log('selectedState: ', selectedState)
     router.push({
       pathname: '/home',
       query: { state: selectedState },

@@ -1,44 +1,116 @@
-import { useState } from 'react';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import Button from "@/components/Button";
 import Image from "next/image";
 import { GoArrowLeft } from "react-icons/go";
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import * as sdkclaro from "@claro/sdkclaro";
 
 const iconStyle = {
-  width: '24px',
-  height: '24px',
-
+  width: "24px",
+  height: "24px",
 };
 
 const ProductDetail = ({
   product,
   setSelectedProduct,
-  setShowProductDetail
+  setShowProductDetail,
 }) => {
   const [localCart, setLocalCart] = useState(() => {
-    const storedCart = localStorage.getItem('localCart');
+    const storedCart = localStorage.getItem("localCart");
     return storedCart ? JSON.parse(storedCart) : [];
-  })
+  });
 
+  const router = useRouter();
   const handleReturn = () => {
-    setSelectedProduct({})
-    setShowProductDetail(false)
-  }
+    setSelectedProduct({});
+    setShowProductDetail(false);
+  };
 
-  const handleButton = () => {
+  const handleButton = async (product) => {
+    console.log("here:", product);
+    router.replace("/buy");
+    const getInstance = async () => {
+      await sdkclaro.getInstance(
+        "Cuponera",
+        () => {
+          console.log("onLaunch");
+        },
+        () => {
+          console.log("onShow");
+        },
+        () => {
+          console.log("onHide");
+        },
+        () => {
+          console.log("onError");
+        },
+        (eventName, eventInformation) => {
+          console.log("eventInformation: ", eventInformation, eventName);
+          if (eventName === "ONBACK") {
+            window.history.back();
+          }
+          if (eventName === "otp_response") {
+            dispatch(saveSession(true));
+          }
+          if (eventName === 'responseRecharge') {
+            console.log(eventInformation, "Log responseRecharge");
+            store.dispatch({
+              type: 'DATA_RESPONSE_RECHARGE',
+              payload: eventInformation
+            });
+            router.replace("/buy");
+          }
+        },
+        {}
+      );
+    };
 
-  }
+    // sdkclaro.getInstance().getTopic(
+    //   "get Profile",
+    //   "",
+    //   (result) => {
+    //     console.log(result);
+    //   },
+    //   (error) => {
+    //     console.log(error);
+    //   }
+    // );
+    // await sdkclaro.getInstance().setState(
+    //   product.id,
+    //   product,
+    //   (result) => {
+    //     console.log(result)
+    //   },
+    //   (error) => {
+    //     console.log('error: ', error);
+    //   }
+    // )
+
+    await sdkclaro.getInstance(
+      "Cuponera"
+    ).transactionPayment(
+      product,
+      (result) => {
+        console.log(result);
+        getInstance()
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  };
 
   const handleAddCart = () => {
     const updatedCart = [...localCart, product];
     setLocalCart(updatedCart);
-    localStorage.setItem('localCart', JSON.stringify(updatedCart));
+    localStorage.setItem("localCart", JSON.stringify(updatedCart));
 
-    toast.success('Producto añadido al carrito correctamente', {
-      position: 'top-right',
+    toast.success("Producto añadido al carrito correctamente", {
+      position: "top-right",
       autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
@@ -50,10 +122,17 @@ const ProductDetail = ({
 
   return (
     <div>
-      <div className="px-5 cursor-pointer" style={{ width: '32px' }} onClick={handleReturn}>
+      <div
+        className="px-5 cursor-pointer"
+        style={{ width: "32px" }}
+        onClick={handleReturn}
+      >
         <GoArrowLeft style={iconStyle} />
       </div>
-      <div className="relative w-full overflow-hidden bg-blue-300" style={{ height: '224px', marginTop: '24px' }}>
+      <div
+        className="relative w-full overflow-hidden bg-blue-300"
+        style={{ height: "224px", marginTop: "24px" }}
+      >
         <Image
           src={product?.img}
           layout="fill"
@@ -64,37 +143,46 @@ const ProductDetail = ({
       <div className="w-full px-5 pt-10">
         <div className="flex items-center justify-between w-full">
           <div>
-            <p className="text-base font-bold">{decodeURIComponent(escape(product?.nombre))}</p>
+            <p className="text-base font-bold">
+              {decodeURIComponent(escape(product?.nombre))}
+            </p>
             {/* <p>(Marca)</p> */}
           </div>
           <div>
-            <p className="text-[#DCA927] font-bold text-2xl">${product?.precio}</p>
+            <p className="text-[#DCA927] font-bold text-2xl">
+              ${product?.precio}
+            </p>
           </div>
         </div>
         <div className="pt-4">
           <p className="text-[#DCA927] font-semibold text-base">Detalles</p>
           <div className="mt-2">
-            <p className="text-[#9095A6] ">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas viverra maximus nibh, ut consectetur neque maximus ac. Nullam sit amet Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas viverra maximus nibh, ut consectetur neque maximus ac. </p>
+            <p className="text-[#9095A6] ">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
+              viverra maximus nibh, ut consectetur neque maximus ac. Nullam sit
+              amet Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Maecenas viverra maximus nibh, ut consectetur neque maximus ac.{" "}
+            </p>
           </div>
         </div>
 
         <div className="absolute flex flex-col gap-5 left-5 right-5 bottom-8">
           <Button
-            text={'Comprar'}
-            onClick={handleButton}
-            type={'button'}
+            text={"Comprar"}
+            onClick={() => handleButton(product)}
+            type={"button"}
           />
 
           <Button
-            text={'Agregar al Carrito'}
+            text={"Agregar al Carrito"}
             onClick={handleAddCart}
-            type={'button'}
+            type={"button"}
           />
         </div>
       </div>
       <ToastContainer />
     </div>
-  )
-}
+  );
+};
 
-export default ProductDetail
+export default ProductDetail;

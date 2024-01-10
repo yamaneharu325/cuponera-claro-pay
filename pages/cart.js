@@ -29,7 +29,7 @@ const CartPage = () => {
       </div>
 
       <div className="fixed flex flex-col gap-5 left-5 right-5 bottom-8">
-        <Button text={'Comprar'} type={'button'} />
+        <Button text={'Comprar'} type={'button'}/>
       </div>
     </div>
   );
